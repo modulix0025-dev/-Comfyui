@@ -1,0 +1,14 @@
+[project]
+name = "execution_node"
+description = "Unified ComfyUI execution node — merges GroupExecutor, SmartSaveImageMega, SmartSaveVideoMega, and SmartOutputSystem packagers into one all-in-one node with full mobile support."
+version = "1.0.0"
+dependencies = []
+requires-python = ">=3.10"
+
+[project.urls]
+Repository = "https://example.com/execution_node"
+
+[tool.comfy]
+PublisherId = "execution_node"
+DisplayName = "⚡ Execution Node (All-in-One)"
+Icon = ""

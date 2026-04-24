@@ -1,0 +1,384 @@
+/* =========================================================================
+   execution_node.css
+   All styles use ComfyUI's CSS custom properties (var(--...)) — never raw
+   hex — so the node automatically follows whatever theme the user has
+   applied (dark, light, catppuccin, arc, etc.). Constraint #10 of the
+   merge spec.
+   ========================================================================= */
+
+/* -----------------------------------------------------------------------
+   Slot dashboard (inside the node body, via addDOMWidget)
+   ----------------------------------------------------------------------- */
+.en-slot-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 6px;
+    padding: 6px;
+    background: var(--comfy-menu-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    max-height: 520px;
+    overflow-y: auto;
+    color: var(--input-text);
+    font-family: var(--font-family, sans-serif);
+}
+
+.en-slot {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--comfy-input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px;
+    min-height: 120px;
+    transition: border-color .15s ease;
+    overflow: hidden;
+}
+
+.en-slot.filled   { border-color: var(--descrip-text, var(--input-text)); }
+.en-slot.empty    { opacity: 0.55; }
+.en-slot.updated  { box-shadow: 0 0 0 1px var(--comfy-input-bg) inset,
+                                 0 0 6px var(--comfy-menu-bg); }
+
+.en-slot-label {
+    font-size: 10px;
+    color: var(--descrip-text, var(--input-text));
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.en-slot-label .kind {
+    font-size: 9px;
+    padding: 0 4px;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    opacity: 0.75;
+}
+
+.en-slot-media-host {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px;
+    background: var(--comfy-menu-bg);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+.en-slot-media-host img,
+.en-slot-media-host video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    cursor: zoom-in;
+}
+.en-slot-media-host .placeholder {
+    font-size: 10px;
+    color: var(--descrip-text, var(--input-text));
+    opacity: 0.6;
+    text-align: center;
+    padding: 4px;
+}
+
+.en-slot-play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    font-size: 26px;
+    color: var(--input-text);
+    text-shadow: 0 1px 2px var(--comfy-menu-bg);
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.en-slot-actions {
+    display: flex;
+    gap: 3px;
+    margin-top: 4px;
+}
+
+.en-slot-btn {
+    flex: 1;
+    background: var(--comfy-input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 3px 0;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .12s ease, border-color .12s ease;
+}
+.en-slot-btn:hover   { border-color: var(--input-text); }
+.en-slot-btn:active  { background: var(--comfy-menu-bg); }
+.en-slot-btn:disabled{
+    opacity: 0.4; cursor: not-allowed;
+}
+.en-slot-btn.primary {
+    /* "⚡ Run just this slot" — uses the same accent approach as ComfyUI's
+       own primary buttons by reading `--primary-bg` when available and
+       gracefully falling back. */
+    background: var(--primary-bg, var(--comfy-input-bg));
+    color:      var(--primary-fg, var(--input-text));
+    border-color: var(--primary-bg, var(--border-color));
+}
+
+/* -----------------------------------------------------------------------
+   Packager widget (image + video ZIP download)
+   ----------------------------------------------------------------------- */
+.en-packager-host {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px;
+    background: var(--comfy-menu-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--input-text);
+    font-family: inherit;
+}
+.en-pack-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px;
+    background: var(--comfy-input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 11px;
+}
+.en-pack-row .en-pack-label {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.en-pack-row .en-pack-count {
+    font-variant-numeric: tabular-nums;
+    font-size: 10px;
+    color: var(--descrip-text, var(--input-text));
+    opacity: 0.75;
+}
+.en-pack-row .en-pack-btn {
+    background: var(--comfy-menu-bg);
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+}
+.en-pack-row .en-pack-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.en-pack-row .en-pack-btn.ready {
+    background: var(--primary-bg, var(--comfy-input-bg));
+    color:      var(--primary-fg, var(--input-text));
+    border-color: var(--primary-bg, var(--border-color));
+}
+
+/* -----------------------------------------------------------------------
+   Group executor floating panel
+   ----------------------------------------------------------------------- */
+.en-gep-panel {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    width: 320px;
+    max-height: 80vh;
+    background: var(--comfy-menu-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--input-text);
+    font-family: inherit;
+    z-index: 900;
+    box-shadow: 0 6px 24px var(--comfy-menu-bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.en-gep-panel.hidden { display: none; }
+
+.en-gep-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    background: var(--comfy-input-bg);
+    border-bottom: 1px solid var(--border-color);
+    cursor: move;
+    user-select: none;
+}
+.en-gep-header .title { flex: 1; font-size: 13px; font-weight: 700; }
+.en-gep-header .mini-btn {
+    background: transparent;
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 2px 7px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.en-gep-body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    font-size: 12px;
+}
+
+.en-gep-section { display: flex; flex-direction: column; gap: 6px; }
+.en-gep-section label { font-size: 11px; color: var(--descrip-text, var(--input-text)); }
+.en-gep-section select,
+.en-gep-section input[type="text"],
+.en-gep-section input[type="number"],
+.en-gep-section textarea {
+    background: var(--comfy-input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 4px 6px;
+    font-size: 12px;
+    font-family: inherit;
+}
+
+.en-gep-rows { display: flex; flex-direction: column; gap: 4px; }
+.en-gep-row {
+    display: grid;
+    grid-template-columns: 1fr 46px 52px auto;
+    gap: 4px;
+    align-items: center;
+}
+.en-gep-row .x {
+    background: transparent;
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.en-gep-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border-color);
+}
+.en-gep-actions button {
+    background: var(--comfy-input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+}
+.en-gep-actions .run {
+    background: var(--primary-bg, var(--comfy-input-bg));
+    color:      var(--primary-fg, var(--input-text));
+    border-color: var(--primary-bg, var(--border-color));
+}
+.en-gep-actions button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* -----------------------------------------------------------------------
+   Mobile QR panel
+   ----------------------------------------------------------------------- */
+.en-qr-panel {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--comfy-menu-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 920;
+    color: var(--input-text);
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 6px 24px var(--comfy-menu-bg);
+}
+.en-qr-panel.hidden { display: none; }
+.en-qr-panel .title { font-size: 12px; font-weight: 700; }
+.en-qr-panel img {
+    background: var(--input-text);   /* QR needs a light background to scan */
+    border-radius: 4px;
+    padding: 4px;
+    display: block;
+}
+.en-qr-panel a {
+    color: var(--input-text);
+    font-size: 11px;
+    text-decoration: underline;
+    word-break: break-all;
+    text-align: center;
+}
+.en-qr-panel .close {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background: transparent;
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 0 6px;
+    font-size: 11px;
+    cursor: pointer;
+    line-height: 18px;
+}
+
+/* -----------------------------------------------------------------------
+   Modal viewer (full-screen preview when clicking a slot)
+   ----------------------------------------------------------------------- */
+.en-modal-bg {
+    position: fixed;
+    inset: 0;
+    background: var(--comfy-menu-bg);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 950;
+    transition: opacity .15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.en-modal-bg.show { opacity: 0.95; pointer-events: auto; }
+.en-modal-bg img,
+.en-modal-bg video {
+    max-width: 92vw;
+    max-height: 92vh;
+    object-fit: contain;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--comfy-input-bg);
+}
+.en-modal-bg .close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--comfy-input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+}
